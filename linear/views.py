@@ -74,7 +74,7 @@ def trainDot(request):
 
     try:
         learning_rate = 0.01
-        training_epochs = 200
+        training_epochs = 100
         display_step = 50
 
         # Training Data
