@@ -1,0 +1,15 @@
+This example demostrates an interactive linear agression traing model.
+
+
+1. Setup
+apt-get dist-upgrade
+apt-get update
+apt-get install vim
+apt-get install python3-pip
+pip3 install django
+pip3 install tensorflow
+
+
+2. Run
+python3 manage.py runserver 0.0.0.0:8000
+http://localhost:8000/linear

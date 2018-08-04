@@ -1,0 +1,105 @@
+[08-04 10:53:51] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:53:51] {views.py  :27  } INFO  - [{'y': 316.0, 'x': 200.5}, {'y': 187.0, 'x': 402.5}, {'y': 84.0, 'x': 479.5}]
+[08-04 10:55:24] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:24] {views.py  :27  } INFO  - [{'y': 316.0, 'x': 200.5}, {'y': 187.0, 'x': 402.5}, {'y': 84.0, 'x': 479.5}]
+[08-04 10:55:26] {views.py  :53  } INFO  - Entering clearDots...
+[08-04 10:55:26] {views.py  :57  } INFO  - Done!
+[08-04 10:55:26] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:26] {views.py  :27  } INFO  - []
+[08-04 10:55:28] {views.py  :36  } INFO  - Entering sampleDot...
+[08-04 10:55:28] {views.py  :39  } INFO  - x: 210.5, y: 256
+[08-04 10:55:28] {views.py  :44  } INFO  - Done!
+[08-04 10:55:29] {views.py  :36  } INFO  - Entering sampleDot...
+[08-04 10:55:29] {views.py  :39  } INFO  - x: 348.5, y: 188
+[08-04 10:55:29] {views.py  :44  } INFO  - Done!
+[08-04 10:55:29] {views.py  :36  } INFO  - Entering sampleDot...
+[08-04 10:55:29] {views.py  :39  } INFO  - x: 422.5, y: 102
+[08-04 10:55:29] {views.py  :44  } INFO  - Done!
+[08-04 10:55:31] {views.py  :66  } INFO  - Entering trainDot...
+[08-04 10:55:31] {views.py  :73  } INFO  - W: 0.0, b: 0.0
+[08-04 10:55:32] {views.py  :122 } INFO  - Epoch: 0050, cost: 0.734017015, W: 0.524053931, b: -0.507868946
+[08-04 10:55:32] {views.py  :122 } INFO  - Epoch: 0100, cost: 0.624436617, W: 0.477391213, b: -0.734523833
+[08-04 10:55:32] {views.py  :122 } INFO  - Epoch: 0150, cost: 0.537182271, W: 0.393982112, b: -0.926031113
+[08-04 10:55:32] {views.py  :122 } INFO  - Epoch: 0200, cost: 0.462375969, W: 0.313695461, b: -1.102006912
+[08-04 10:55:32] {views.py  :124 } INFO  - Optimization Finished!
+[08-04 10:55:32] {views.py  :128 } INFO  - Training cost: 0.46237597, W: 0.31369546, b: -1.1020069
+[08-04 10:55:32] {views.py  :130 } INFO  - Done!
+[08-04 10:55:32] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:32] {views.py  :27  } INFO  - [{'y': 256.0, 'x': 210.5}, {'y': 188.0, 'x': 348.5}, {'y': 102.0, 'x': 422.5}]
+[08-04 10:55:33] {views.py  :66  } INFO  - Entering trainDot...
+[08-04 10:55:33] {views.py  :73  } INFO  - W: 0.31369546, b: -1.1020069
+[08-04 10:55:33] {views.py  :122 } INFO  - Epoch: 0050, cost: 0.398209333, W: 0.239107758, b: -1.264883876
+[08-04 10:55:33] {views.py  :122 } INFO  - Epoch: 0100, cost: 0.343168825, W: 0.170010149, b: -1.415725946
+[08-04 10:55:33] {views.py  :122 } INFO  - Epoch: 0150, cost: 0.295956343, W: 0.106013291, b: -1.555429816
+[08-04 10:55:33] {views.py  :122 } INFO  - Epoch: 0200, cost: 0.255458653, W: 0.046741683, b: -1.684818268
+[08-04 10:55:33] {views.py  :124 } INFO  - Optimization Finished!
+[08-04 10:55:33] {views.py  :128 } INFO  - Training cost: 0.25545865, W: 0.046741683, b: -1.6848183
+[08-04 10:55:33] {views.py  :130 } INFO  - Done!
+[08-04 10:55:33] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:33] {views.py  :27  } INFO  - [{'y': 256.0, 'x': 210.5}, {'y': 188.0, 'x': 348.5}, {'y': 102.0, 'x': 422.5}]
+[08-04 10:55:34] {views.py  :66  } INFO  - Entering trainDot...
+[08-04 10:55:34] {views.py  :73  } INFO  - W: 0.046741683, b: -1.6848183
+[08-04 10:55:35] {views.py  :122 } INFO  - Epoch: 0050, cost: 0.220720649, W: -0.008153435, b: -1.804652929
+[08-04 10:55:35] {views.py  :122 } INFO  - Epoch: 0100, cost: 0.190923378, W: -0.058995169, b: -1.915638924
+[08-04 10:55:35] {views.py  :122 } INFO  - Epoch: 0150, cost: 0.165363967, W: -0.106082737, b: -2.018429995
+[08-04 10:55:35] {views.py  :122 } INFO  - Epoch: 0200, cost: 0.143439859, W: -0.149693400, b: -2.113630772
+[08-04 10:55:35] {views.py  :124 } INFO  - Optimization Finished!
+[08-04 10:55:35] {views.py  :128 } INFO  - Training cost: 0.14343986, W: -0.1496934, b: -2.1136308
+[08-04 10:55:35] {views.py  :130 } INFO  - Done!
+[08-04 10:55:35] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:35] {views.py  :27  } INFO  - [{'y': 256.0, 'x': 210.5}, {'y': 188.0, 'x': 348.5}, {'y': 102.0, 'x': 422.5}]
+[08-04 10:55:35] {views.py  :66  } INFO  - Entering trainDot...
+[08-04 10:55:35] {views.py  :73  } INFO  - W: -0.1496934, b: -2.1136308
+[08-04 10:55:35] {views.py  :122 } INFO  - Epoch: 0050, cost: 0.124633573, W: -0.190084174, b: -2.201803446
+[08-04 10:55:35] {views.py  :122 } INFO  - Epoch: 0100, cost: 0.108502328, W: -0.227492541, b: -2.283464193
+[08-04 10:55:35] {views.py  :122 } INFO  - Epoch: 0150, cost: 0.094665214, W: -0.262138575, b: -2.359095573
+[08-04 10:55:35] {views.py  :122 } INFO  - Epoch: 0200, cost: 0.082796216, W: -0.294226259, b: -2.429142237
+[08-04 10:55:35] {views.py  :124 } INFO  - Optimization Finished!
+[08-04 10:55:35] {views.py  :128 } INFO  - Training cost: 0.082796216, W: -0.29422626, b: -2.4291422
+[08-04 10:55:35] {views.py  :130 } INFO  - Done!
+[08-04 10:55:36] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:36] {views.py  :27  } INFO  - [{'y': 256.0, 'x': 210.5}, {'y': 188.0, 'x': 348.5}, {'y': 102.0, 'x': 422.5}]
+[08-04 10:55:36] {views.py  :66  } INFO  - Entering trainDot...
+[08-04 10:55:36] {views.py  :73  } INFO  - W: -0.29422626, b: -2.4291422
+[08-04 10:55:36] {views.py  :122 } INFO  - Epoch: 0050, cost: 0.072615169, W: -0.323944807, b: -2.494016886
+[08-04 10:55:36] {views.py  :122 } INFO  - Epoch: 0100, cost: 0.063882165, W: -0.351468831, b: -2.554101467
+[08-04 10:55:37] {views.py  :122 } INFO  - Epoch: 0150, cost: 0.056391239, W: -0.376960576, b: -2.609748840
+[08-04 10:55:37] {views.py  :122 } INFO  - Epoch: 0200, cost: 0.049965657, W: -0.400569975, b: -2.661287785
+[08-04 10:55:37] {views.py  :124 } INFO  - Optimization Finished!
+[08-04 10:55:37] {views.py  :128 } INFO  - Training cost: 0.049965657, W: -0.40056998, b: -2.6612878
+[08-04 10:55:37] {views.py  :130 } INFO  - Done!
+[08-04 10:55:37] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:37] {views.py  :27  } INFO  - [{'y': 256.0, 'x': 210.5}, {'y': 188.0, 'x': 348.5}, {'y': 102.0, 'x': 422.5}]
+[08-04 10:55:37] {views.py  :66  } INFO  - Entering trainDot...
+[08-04 10:55:37] {views.py  :73  } INFO  - W: -0.40056998, b: -2.6612878
+[08-04 10:55:38] {views.py  :122 } INFO  - Epoch: 0050, cost: 0.044454031, W: -0.422436208, b: -2.709020615
+[08-04 10:55:38] {views.py  :122 } INFO  - Epoch: 0100, cost: 0.039726242, W: -0.442687660, b: -2.753229380
+[08-04 10:55:38] {views.py  :122 } INFO  - Epoch: 0150, cost: 0.035670869, W: -0.461443871, b: -2.794173717
+[08-04 10:55:38] {views.py  :122 } INFO  - Epoch: 0200, cost: 0.032192226, W: -0.478815347, b: -2.832095385
+[08-04 10:55:38] {views.py  :124 } INFO  - Optimization Finished!
+[08-04 10:55:38] {views.py  :128 } INFO  - Training cost: 0.032192226, W: -0.47881535, b: -2.8320954
+[08-04 10:55:38] {views.py  :130 } INFO  - Done!
+[08-04 10:55:38] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:38] {views.py  :27  } INFO  - [{'y': 256.0, 'x': 210.5}, {'y': 188.0, 'x': 348.5}, {'y': 102.0, 'x': 422.5}]
+[08-04 10:55:39] {views.py  :66  } INFO  - Entering trainDot...
+[08-04 10:55:39] {views.py  :73  } INFO  - W: -0.47881535, b: -2.8320954
+[08-04 10:55:39] {views.py  :122 } INFO  - Epoch: 0050, cost: 0.029208329, W: -0.494904071, b: -2.867216825
+[08-04 10:55:39] {views.py  :122 } INFO  - Epoch: 0100, cost: 0.026648847, W: -0.509804964, b: -2.899744749
+[08-04 10:55:39] {views.py  :122 } INFO  - Epoch: 0150, cost: 0.024453413, W: -0.523605347, b: -2.929870367
+[08-04 10:55:39] {views.py  :122 } INFO  - Epoch: 0200, cost: 0.022570163, W: -0.536386847, b: -2.957772732
+[08-04 10:55:39] {views.py  :124 } INFO  - Optimization Finished!
+[08-04 10:55:39] {views.py  :128 } INFO  - Training cost: 0.022570163, W: -0.53638685, b: -2.9577727
+[08-04 10:55:39] {views.py  :130 } INFO  - Done!
+[08-04 10:55:39] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:39] {views.py  :27  } INFO  - [{'y': 256.0, 'x': 210.5}, {'y': 188.0, 'x': 348.5}, {'y': 102.0, 'x': 422.5}]
+[08-04 10:55:40] {views.py  :66  } INFO  - Entering trainDot...
+[08-04 10:55:40] {views.py  :73  } INFO  - W: -0.53638685, b: -2.9577727
+[08-04 10:55:40] {views.py  :122 } INFO  - Epoch: 0050, cost: 0.020954756, W: -0.548224807, b: -2.983614445
+[08-04 10:55:40] {views.py  :122 } INFO  - Epoch: 0100, cost: 0.019569157, W: -0.559188306, b: -3.007547140
+[08-04 10:55:40] {views.py  :122 } INFO  - Epoch: 0150, cost: 0.018380601, W: -0.569342315, b: -3.029713154
+[08-04 10:55:40] {views.py  :122 } INFO  - Epoch: 0200, cost: 0.017361093, W: -0.578746617, b: -3.050242662
+[08-04 10:55:40] {views.py  :124 } INFO  - Optimization Finished!
+[08-04 10:55:40] {views.py  :128 } INFO  - Training cost: 0.017361093, W: -0.5787466, b: -3.0502427
+[08-04 10:55:40] {views.py  :130 } INFO  - Done!
+[08-04 10:55:40] {views.py  :19  } INFO  - Entering listDots...
+[08-04 10:55:40] {views.py  :27  } INFO  - [{'y': 256.0, 'x': 210.5}, {'y': 188.0, 'x': 348.5}, {'y': 102.0, 'x': 422.5}]
