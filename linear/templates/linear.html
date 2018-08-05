@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <title>Interactive Linear Regression Demo</title>
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap.min.css" %}" />
+
+    <style>
+      body {
+         background: #eeeeee;
+      }
+
+      #canvas {
+         background: #ffffff;
+         cursor: pointer;
+         margin-left: 10px;
+         margin-top: 10px;
+         -webkit-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+         -moz-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+         box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+      }
+    </style>
+  </head>
+
+   <body>
+<div class="container">
+  <div class="page-container">
+    <div class="page-content-wrapper">
+      <div class="page-content">
+<div class="portlet light">
+  <div class="portlet-body">
+    <div class="row">
+      <div class="col-md-12 margin-bottom-10">
+        <button type="button" class="btn btn-default" id="ptd-clear"   >Clear</button>
+        <button type="button" class="btn btn-default" id="ptd-sample"  >Sample</button>
+      </div>
+      <div class="col-md-12 margin-bottom-10">
+        <input type="text" id="pid-W" placeholder="W" />
+        <input type="text" id="pid-b" placeholder="b" />
+        <button type="button" class="btn btn-default" id="ptd-train"   >Train</button>
+        <input type="text" id="pid-cost" placeholder="cost" />
+      </div>
+      <div class="col-md-12 table-width">
+        <canvas id='canvas' width='1024' height='768'>
+           Canvas not supported
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <script src = '{% static 'jquery.min.js' %}'></script>
+    <script src = '{% static 'bootstrap.min.js' %}'></script>
+    <script src = '{% static 'metronic.js' %}'></script>
+    <script src = '{% static 'linear.js' %}'></script>
+<script type="text/javascript">
+  $(function() {
+    Metronic.init();
+    LinearObj.init();
+  });
+</script>
+  </body>
+</html>

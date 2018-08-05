@@ -2,7 +2,7 @@
 {% load static %}
 <html>
   <head>
-    <title>Interactive Linear Agression Demo</title>
+    <title>Interactive Logistic Regression Demo</title>
     <link rel="stylesheet" type="text/css" href="{% static "bootstrap.min.css" %}" />
 
     <style>
@@ -32,11 +32,17 @@
     <div class="row">
       <div class="col-md-12 margin-bottom-10">
         <button type="button" class="btn btn-default" id="ptd-clear"   >Clear</button>
+        <select type="text" id="ptd-class">
+          <option value=""></option>
+          <option value="0">Class A</option>
+          <option value="1">Class B</option>
+        </select>
         <button type="button" class="btn btn-default" id="ptd-sample"  >Sample</button>
       </div>
       <div class="col-md-12 margin-bottom-10">
-        <input type="text" id="pid-W" placeholder="W" />
-        <input type="text" id="pid-b" placeholder="b" />
+        <input type="text" id="pid-w1" placeholder="w1" />
+        <input type="text" id="pid-w2" placeholder="w2" />
+        <input type="text" id="pid-b"  placeholder="b"  />
         <button type="button" class="btn btn-default" id="ptd-train"   >Train</button>
         <input type="text" id="pid-cost" placeholder="cost" />
       </div>
@@ -56,11 +62,11 @@
     <script src = '{% static 'jquery.min.js' %}'></script>
     <script src = '{% static 'bootstrap.min.js' %}'></script>
     <script src = '{% static 'metronic.js' %}'></script>
-    <script src = '{% static 'example.js' %}'></script>
+    <script src = '{% static 'logistic.js' %}'></script>
 <script type="text/javascript">
   $(function() {
     Metronic.init();
-    ExampleObj.init();
+    LogisticObj.init();
   });
 </script>
   </body>

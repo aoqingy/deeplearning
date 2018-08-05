@@ -1,4 +1,4 @@
-var ExampleObj = function() {
+var LinearObj = function() {
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
 
@@ -201,8 +201,10 @@ function sampleDot(scb, ecb, x, y) {
 
 var scb_sampleDot = function(response) {
     var data = response.message;
+    var x = parseFloat(data.x)*100.0+1024/2;
+    var y = parseFloat(data.y)*100.0+768/2;
     context.beginPath();
-    context.arc(data.x, data.y, 5, 0, Math.PI*2, false);
+    context.arc(x, y, 5, 0, Math.PI*2, false);
     context.fillStyle = 'black';
     context.fill();
     context.closePath();
@@ -277,8 +279,10 @@ function listDots(scb, ecb) {
 var scb_listDots = function(response) {
     var data = response.message;
     for (var i = 0; i < data.length; i++) {
+        var x = parseFloat(data[i].x) * 100.0 + 1024/2;
+        var y = parseFloat(data[i].y) * 100.0 + 768/2;
         context.beginPath();
-        context.arc(data[i].x, data[i].y, 5, 0, Math.PI*2, false);
+        context.arc(x, y, 5, 0, Math.PI*2, false);
         context.fillStyle = 'black';
         context.fill();
         context.closePath();
@@ -340,7 +344,9 @@ var ecb_listDots2 = function(response) {
         function(e) {
             e.preventDefault();
             var loc = windowToCanvas(canvas, e.clientX, e.clientY);
-            sampleDot(scb_sampleDot, ecb_sampleDot, loc.x, loc.y);
+            var x = (loc.x - 1024/2) / 100.0;
+            var y = (loc.y - 768/2) / 100.0;
+            sampleDot(scb_sampleDot, ecb_sampleDot, x, y);
         })
         .on('click', '#ptd-train',
         function(e) {

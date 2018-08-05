@@ -1,4 +1,4 @@
-This example demostrates an interactive linear agression traing model.
+This project demostrates interactive deep learning traing models.
 
 
 1. Setup
@@ -12,4 +12,5 @@ pip3 install tensorflow
 
 2. Run
 python3 manage.py runserver 0.0.0.0:8000
-http://localhost:8000/linear
+http://localhost:8000/linear/
+http://localhost:8000/logistic/
