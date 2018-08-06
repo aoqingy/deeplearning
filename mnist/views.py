@@ -1,5 +1,8 @@
 import os
+import re
 import json
+import base64
+from PIL import Image
 import numpy as np
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data     # 导入mnist数据集
@@ -17,35 +20,6 @@ def index(request):
     return render(request, 'mnist.html', {})
 
 
-'''计算准确度函数'''
-def compute_accuracy(xs,ys,X,y,keep_prob,sess,prediction):
-    y_pre = sess.run(prediction,feed_dict={xs:X,keep_prob:1.0})       # 预测，这里的keep_prob是dropout时用的，防止过拟合
-    correct_prediction = tf.equal(tf.argmax(y_pre,1),tf.argmax(y,1))  #tf.argmax 给出某个tensor对象在某一维上的其数据最大值所在的索引值,即为对应的数字，tf.equal 来检测我们的预测是否真实标签匹配
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction,tf.float32)) # 平均值即为准确度
-    result = sess.run(accuracy,feed_dict={xs:X,ys:y,keep_prob:1.0})
-    return result  
-
-'''权重初始化函数'''
-def weight_variable(shape):
-    inital = tf.truncated_normal(shape, stddev=0.1)  # 使用truncated_normal进行初始化
-    return tf.Variable(inital)
-
-'''偏置初始化函数'''
-def bias_variable(shape):
-    inital = tf.constant(0.1,shape=shape)  # 偏置定义为常量
-    return tf.Variable(inital)
-
-'''卷积函数'''
-def conv2d(x,W):#x是图片的所有参数，W是此卷积层的权重
-    return tf.nn.conv2d(x,W,strides=[1,1,1,1],padding='SAME')#strides[0]和strides[3]的两个1是默认值，中间两个1代表padding时在x方向运动1步，y方向运动1步
-
-'''池化函数'''
-def max_pool_2x2(x):
-    return tf.nn.max_pool(x,ksize=[1,2,2,1],
-                          strides=[1,2,2,1],
-                          padding='SAME')#池化的核函数大小为2x2，因此ksize=[1,2,2,1]，步长为2，因此strides=[1,2,2,1]
-
-
 @csrf_exempt
 def train(request):
     logger.info("Entering train...")
@@ -53,65 +27,141 @@ def train(request):
     try:
         mnist = input_data.read_data_sets(os.path.join(settings.BASE_DIR, 'mnist/MNIST_data'), one_hot=True)  # 下载数据
     
-        xs = tf.placeholder(tf.float32,[None,784])  # 输入图片的大小，28x28=784
-        ys = tf.placeholder(tf.float32,[None,10])   # 输出0-9共10个数字
-        keep_prob = tf.placeholder(tf.float32)      # 用于接收dropout操作的值，dropout为了防止过拟合
-        x_image = tf.reshape(xs,[-1,28,28,1])       #-1代表先不考虑输入的图片例子多少这个维度，后面的1是channel的数量，因为我们输入的图片是黑白的，因此channel是1，例如如果是RGB图像，那么channel就是3
-    
-        '''第一层卷积，池化'''
-        W_conv1 = weight_variable([5,5,1,32])  # 卷积核定义为5x5,1是输入的通道数目，32是输出的通道数目
-        b_conv1 = bias_variable([32])          # 每个输出通道对应一个偏置
-        h_conv1 = tf.nn.relu(conv2d(x_image,W_conv1)+b_conv1) # 卷积运算，并使用ReLu激活函数激活
-        h_pool1 = max_pool_2x2(h_conv1)        # pooling操作 
-        '''第二层卷积，池化'''
-        W_conv2 = weight_variable([5,5,32,64]) # 卷积核还是5x5,32个输入通道，64个输出通道
-        b_conv2 = bias_variable([64])          # 与输出通道一致
-        h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2)+b_conv2)
-        h_pool2 = max_pool_2x2(h_conv2)
-    
-        '''全连接层'''
-        h_pool2_flat = tf.reshape(h_pool2, [-1,7*7*64])   # 将最后操作的数据展开
-        W_fc1 = weight_variable([7*7*64,1024])            # 下面就是定义一般神经网络的操作了，继续扩大为1024
-        b_fc1 = bias_variable([1024])                     # 对应的偏置
-        h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat,W_fc1)+b_fc1)  # 运算、激活（这里不是卷积运算了，就是对应相乘）
-        '''dropout'''
-        h_fc1_drop = tf.nn.dropout(h_fc1,keep_prob)       # dropout操作
-        '''最后一层全连接'''
-        W_fc2 = weight_variable([1024,10])                # 最后一层权重初始化
-        b_fc2 = bias_variable([10])                       # 对应偏置
-    
-        prediction = tf.nn.softmax(tf.matmul(h_fc1_drop,W_fc2)+b_fc2)  # 使用softmax分类器
-        cross_entropy = tf.reduce_mean(-tf.reduce_sum(ys*tf.log(prediction),reduction_indices=[1]))  # 交叉熵损失函数来定义cost function
-        train_step = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy)  # 调用梯度下降
-    
-        '''下面就是tf的一般操作，定义Session，初始化所有变量，placeholder传入值训练'''
+        # 设置权重weights和偏置biases作为优化变量，初始值设为0
+        weights = tf.Variable(tf.zeros([784, 10]))
+        biases = tf.Variable(tf.zeros([10]))
+
+        # 构建模型
+        x = tf.placeholder("float", [None, 784])
+        y = tf.matmul(x, weights) + biases
+
+        # 模型的预测值
+        y_real = tf.placeholder("float", [None, 10])
+        # 真实值
+        cross_entropy = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits_v2(labels=y_real, logits=y))
+
+        # 预测值与真实值的交叉熵
+        train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+
+        # 使用梯度下降优化器最小化交叉熵
+        # 开始训练
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
-    
-            for i in range(300):
-                batch_xs, batch_ys = mnist.train.next_batch(100)  # 使用SGD，每次选取100个数据训练
-                sess.run(train_step, feed_dict={xs: batch_xs, ys: batch_ys, keep_prob: 0.5})  # dropout值定义为0.5
-                if i % 100 == 0:
-                    logger.info(compute_accuracy(xs,ys,mnist.test.images, mnist.test.labels,keep_prob,sess,prediction))  # 每50次输出一下准确度
+
+            for i in range(1000):
+                batch_xs, batch_ys = mnist.train.next_batch(100)
+                # 每次随机选取100个数据进行训练，即所谓的“随机梯度下降（Stochastic Gradient Descent，SGD）”
+                sess.run(train_step, feed_dict={x: batch_xs, y_real:batch_ys})
+
+                # 正式执行train_step，用feed_dict的数据取代placeholder
+                if i % 1000 == 0:
+                    # 每训练100次后评估模型
+                    correct_prediction = tf.equal(tf.argmax(y, 1), tf.arg_max(y_real, 1))
+                    # 比较预测值和真实值是否一致
+                    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+                    # 统计预测正确的个数，取均值得到准确率
+                    logger.info(sess.run(accuracy, feed_dict={x: mnist.test.images, y_real: mnist.test.labels}))
+
+            logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            logger.info(sess.run(biases))
+            saver = tf.train.Saver()
+            saver.save(sess, "/tmp/mnist.ckpt")
 
             logger.info("Optimization Finished!")
-            accuracy = compute_accuracy(xs,ys,mnist.test.images, mnist.test.labels,keep_prob,sess,prediction)
-            logger.info("Accuracy: %s" % accuracy)
-        logger.info('Done!')
+            accuracy = sess.run(accuracy, feed_dict={x: mnist.test.images, y_real: mnist.test.labels})
+
+        logger.info("Accuracy: %s" % accuracy)
         return HttpResponse(json.dumps({'code':'True', 'message':{'accuracy': str(accuracy)}}))
     except Exception as e:
         logger.error(str(e))
         return HttpResponse(json.dumps({'code':'False', 'message':str(e)}))
+
+
+def softmax(w):
+    """Calculate the softmax of a list of numbers w.
+
+    Parameters
+    ----------
+    w : list of numbers
+
+    Return
+    ------
+    a list of the same length as w of non-negative numbers
+
+    Examples
+    --------
+    >>> softmax([0.1, 0.2])
+    array([ 0.47502081,  0.52497919])
+    >>> softmax([-0.1, 0.2])
+    array([ 0.42555748,  0.57444252])
+    >>> softmax([0.9, -10])
+    array([  9.99981542e-01,   1.84578933e-05])
+    >>> softmax([0, 10])
+    array([  4.53978687e-05,   9.99954602e-01])
+    """
+    e = np.exp(np.array(w))
+    dist = e / np.sum(e)
+    return dist
 
 
 @csrf_exempt
 def predict(request):
     logger.info("Entering predict...")
+    data = request.POST.get('data', '')
+    #logger.info('data: %s' % data)
+
     try:
+        imgstr = re.search(r'base64,(.*)', data).group(1)
+        output = open(os.path.join(settings.BASE_DIR, 'mnist/demo.png'), 'wb')
+        output.write(base64.decodestring(imgstr.encode(encoding="utf-8")))
+        output.close()
+
+        img = Image.open(os.path.join(settings.BASE_DIR, 'mnist/demo.png'))
+        img = img.resize((28,28))
+        img.save(os.path.join(settings.BASE_DIR, 'mnist/demo-28.png'))
+
+        img = Image.open(os.path.join(settings.BASE_DIR, 'mnist/demo-28.png'))
+        #pix = img.load()
+        width, height = img.size
+        logger.info("width: %s, height: %s" % (str(width), str(height)))
+
+        bits = []
+        for i in range(height):
+            for j in range(width):
+                bits.append(float(img.getpixel((j,i))[3])/255.0)
+
+        x_data = np.asarray(bits).reshape((28, 28))
+        logger.info(x_data)
+        x_data = np.asarray(bits).reshape((1, 784))
+
+        # 设置权重weights和偏置biases作为优化变量，初始值设为0
+        weights = tf.Variable(tf.zeros([784, 10]))
+        biases = tf.Variable(tf.zeros([10]))
+
+        # 构建模型
+        x = tf.placeholder("float", [None, 784])
+        y = tf.matmul(x, weights) + biases
+
+        my_predict = ''
+        with tf.Session() as sess:
+            saver = tf.train.Saver()
+            saver.restore(sess, "/tmp/mnist.ckpt")
+            logger.info("<<<<<<<<<<<<<<<<<<<<<<<<<<")
+            logger.info(sess.run(biases))
+
+            y_data = sess.run(y, feed_dict={x: x_data})
+            logger.info(y_data)
+            y_data = sess.run(tf.nn.softmax(y), feed_dict={x: x_data})
+            logger.info(y_data)
+
+            for i in range(0, 10):
+                if float(y_data[0][i]) > 0.1:
+                    my_predict += str(i) + '......' + "{:.1f}".format(float(y_data[0][i]) * 100) + '%\n'
+
         logger.info('Done!')
         accuracy = 0.0
-        return HttpResponse(json.dumps({'code':'True', 'message':{'accuracy': str(accuracy)}}))
+        return HttpResponse(json.dumps({'code':'True', 'message':{'predict': str(my_predict)}}))
     except Exception as e:
         logger.error(str(e))
         return HttpResponse(json.dumps({'code':'False', 'message':str(e)}))
- 
+

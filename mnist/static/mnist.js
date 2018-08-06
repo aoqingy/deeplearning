@@ -6,11 +6,11 @@ var MnistObj = function() {
     var canY = bbox.top;                     //画布左上角的y坐标
     context.lineCap     = "round";           //线条起始和结尾样式
     context.lineJoin    = "round";           //线条转弯样式
-    context.lineWidth   = '15';              //画笔粗细 
-    context.strokeStyle = 'black';           //画笔颜色
+    context.lineWidth   = '25';              //画笔粗细 
+    context.strokeStyle = 'white';           //画笔颜色
     var painting = false;                    //初始化设置为不可画状态
 
-function train(scb, ecb, w1, w2, b) {
+function train(scb, ecb) {
     $.ajax({
         url      : '/mnist/train/',
         type     : 'POST',
@@ -40,6 +40,34 @@ var ecb_train = function(response) {
 }
 
 
+function predict(scb, ecb, data) {
+    $.ajax({
+        url      : '/mnist/predict/',
+        type     : 'POST',
+        data     : {'data': data},
+        dataType : 'json',
+        success  : function (response) {
+            if (response.code == "True") {
+                scb(response);
+            } else {
+                ecb(response);
+            }
+        },
+        error    : function() {
+            alert('获取终端列表失败！');
+        }
+    });
+}
+
+var scb_predict = function(response) {
+    var data = response.message;
+    alert(data.predict);
+}
+
+var ecb_predict = function(response) {
+    alert('Failed!');
+}
+
     var handleActions = function() {
         $('body')
         .on('mousedown', '#canvas',
@@ -48,7 +76,7 @@ var ecb_train = function(response) {
             painting = true;                               //鼠标按下可以作画
             context.beginPath();                           //开始作画
             context.moveTo(e.pageX-canX,e.pageY-canY);     //画笔开始位置
-            $('#cavas').css('cursor','pointer');           //将鼠标图形设置成小手
+            $('#canvas').css('cursor','pointer');           //将鼠标图形设置成小手
         })
         .on('mousemove', '#canvas',
         function(e) {
@@ -63,14 +91,14 @@ var ecb_train = function(response) {
             e.preventDefault();
             painting = false;                                //鼠标松开，禁止作画
             context.closePath();                             //关闭画笔路径
-            $('#cavas').css('cursor','');                    //消除鼠标小手
+            $('#canvas').css('cursor','');                    //消除鼠标小手
         })
         .on('mouseleave', '#canvas',
         function(e) {
             e.preventDefault();
             painting = false;                                //离开画布，禁止作画
             context.closePath();                             //关闭画笔路径
-            $('#cavas').css('cursor','');                    //消除鼠标小手
+            $('#canvas').css('cursor','');                    //消除鼠标小手
         })
         .on('click', '#ptd-train',
         function(e) {
@@ -88,7 +116,8 @@ var ecb_train = function(response) {
         .on('click', '#ptd-predict',
         function(e) {
             e.preventDefault();
-            alert('Predict');
+            var data = $('#canvas')[0].toDataURL('png');
+            predict(scb_predict, ecb_predict, data);
         })
     };
 

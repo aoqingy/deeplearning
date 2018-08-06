@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class LogisticConfig(AppConfig):
+class MnistConfig(AppConfig):
     name = 'mnist'
