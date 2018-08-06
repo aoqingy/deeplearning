@@ -14,3 +14,4 @@ pip3 install tensorflow
 python3 manage.py runserver 0.0.0.0:8000
 http://localhost:8000/linear/
 http://localhost:8000/logistic/
+http://localhost:8000/mnist/
